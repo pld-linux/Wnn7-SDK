@@ -1,0 +1,11 @@
+--- Wnn7-SDK-1.0/src/Wnn/Imakefile.orig	2001-10-17 03:37:18.000000000 +0200
++++ Wnn7-SDK-1.0/src/Wnn/Imakefile	2016-04-10 22:15:03.826970858 +0200
+@@ -7,7 +7,7 @@
+ 
+ #if BuildJlib
+ JLIBDIR = romkan jlib
+-SUBDIRS = $(JLIBDIR)
++SUBDIRS = $(JLIBDIR) include
+ #endif
+ 
+ MakeSubdirs($(SUBDIRS))

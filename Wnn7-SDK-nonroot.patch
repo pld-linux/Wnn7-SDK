@@ -1,0 +1,11 @@
+--- Wnn7-SDK-1.0/src/config/X11.tmpl.orig	2016-04-10 22:05:08.883662495 +0200
++++ Wnn7-SDK-1.0/src/config/X11.tmpl	2016-04-10 22:20:48.266956404 +0200
+@@ -422,7 +422,7 @@
+ #undef MakeDir
+ #endif
+ #define MakeDir(dir) DirFailPrefix@if [ -d dir ]; then set +x; \	@@\
+-	else (set -x; $(MKDIRHIER) dir; chown $(WNNOWNER) dir); fi
++	else (set -x; $(MKDIRHIER) dir); fi
+ 
+ #ifdef MakeDirectory
+ #undef MakeDirectory

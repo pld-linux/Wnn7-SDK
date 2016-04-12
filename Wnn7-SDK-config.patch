@@ -1,0 +1,205 @@
+--- Wnn7-SDK-1.0/src/config/Project.tmpl.orig	2001-10-17 03:37:18.000000000 +0200
++++ Wnn7-SDK-1.0/src/config/Project.tmpl	2016-04-11 22:05:19.340036189 +0200
+@@ -6,9 +6,9 @@ XCOMM ----------------------------------
+ #include "/usr/openwin/lib/config/Project.tmpl"
+ #else	/* Sun & SVR4 */
+ #if defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(NetBSDArchitecture) || defined(OpenBSDArchitecture) || defined(BSD386Architecture)
+-#include "/usr/X11R6/lib/X11/config/Project.tmpl"
++#include "/usr/lib64/X11/config/Project.tmpl"
+ #else	/* Linux || *BSD */
+-#include "/usr/lib/X11/config/Project.tmpl"
++#include "/usr/lib64/X11/config/Project.tmpl"
+ #endif	/* Linux || *BSD */
+ #endif	/* Sun & SVR4 */
+ 
+@@ -53,20 +53,23 @@ XCOMM ----------------------------------
+ #define BinDir Concat(ProjectRoot,/bin)
+ #else
+ #if ((defined LINUX) || (defined FREEBSD)
+-#define BinDir /usr/X11R6/bin
++#define BinDir /usr/bin
+ #else
+-#define BinDir /usr/bin/X11
++#define BinDir /usr/bin
+ #endif /* LINUX || FREEBSD */
+ #endif /* ProjectRoot */
+ #endif /* BinDir */
+ #ifndef BuildIncRoot
+ #define BuildIncRoot $(TOP)
+ #endif
++#ifndef IncRoot
++#define IncRoot /usr/include
++#endif
+ #ifndef BuildIncTop
+ #define BuildIncTop ..		/* relative to $(TOP)/X11 */
+ #endif
+ #ifndef LibDir
+-#define LibDir $(USRLIBDIR)/X11
++#define LibDir $(USRLIBDIR)
+ #endif
+ #ifndef ConfigDir
+ #define ConfigDir $(LIBDIR)/config
+@@ -502,6 +505,10 @@ install:: list								@@\
+ #define WnnOwner	wnn
+ #endif
+ 
++#ifndef InstallHeader
++#define InstallHeader YES
++#endif
++
+ #ifndef ImTop
+ /*
+ #define ImTop	$(CONTRIBSRC)/im/Xsi
+@@ -510,7 +517,7 @@ install:: list								@@\
+ #endif
+ 
+ #ifndef WnnWnnDir
+-#define WnnWnnDir	/usr/lib/wnn7
++#define WnnWnnDir	/var/lib/wnn7
+ #endif
+ 
+ #ifndef WnnEtcDir
+@@ -518,7 +525,7 @@ install:: list								@@\
+ #endif /* WnnEtcDir */
+ 
+ #ifndef WnnBinDir
+-#define WnnBinDir	/usr/local/bin
++#define WnnBinDir	/usr/bin
+ #endif
+ 
+ #ifndef WnnIncDir
+@@ -542,7 +549,7 @@ install:: list								@@\
+       WNNWNNDIR = WnnWnnDir
+       WNNETCDIR = WnnEtcDir
+       WNNBINDIR = WnnBinDir
+-      WNNINCDIR = WnnIncRoot
++      WNNINCDIR = IncRoot
+       WNNLIBDIR = WnnLibDir
+       WNNVARDIR = WnnVarDir
+     WNNSHAREDIR = WnnShareDir
+@@ -556,7 +563,7 @@ install:: list								@@\
+      JWNNWNNDIR = $(WNNWNNDIR)/ja_JP
+      JWNNBINDIR = $(WNNBINDIR)/Wnn7
+ 
+-     JWNNINCDIR = $(WNNINCDIR)/wnn
++     JWNNINCDIR = $(WNNINCDIR)/wnn7
+      JWNNDICDIR = $(JWNNWNNDIR)/dic
+   JWNNPUBDICDIR = $(JWNNDICDIR)/pubdic
+ JWNNWNNCONSDICDIR = $(JWNNDICDIR)/wnncons
+@@ -583,7 +590,7 @@ WNNWNNCONSDICSRC = $(WNNWNNCONSSRC)/dic
+    WNNCNVFILEDIR = $(WNNJDSRC)/cvtfileDir
+     WNNINCLUDES = -I$(WNNINCLUDESRC) -I$(WNNROMKANMSRC)
+      WNNDEFINES = -DLIBDIR=\"$(WNNWNNDIR)\" -DETCDIR=\"$(WNNETCDIR)\" -DVARDIR=\"$(WNNVARDIR)\" -DSHAREDIR=\"$(WNNSHAREDIR)\"
+-        WNNJLIB = $(WNNJLIBSRC)/libwnn7_fromsrc.a
++        WNNJLIB = $(WNNJLIBSRC)/libwnn7.a
+      WNNCONVLIB = $(WNNCONVSRC)/libconvkey.a
+    WNNYOSOKULIB = $(WNNYOSOKUSRC)/libyosoku.a
+  WNNKANAFURILIB = $(WNNKANAFURISRC)/libkanafuri.a
+--- Wnn7-SDK-1.0/src/config/X11.tmpl.orig	2001-10-17 03:37:18.000000000 +0200
++++ Wnn7-SDK-1.0/src/config/X11.tmpl	2016-04-11 22:05:19.866702834 +0200
+@@ -6,9 +6,9 @@ XCOMM ----------------------------------
+ #include "/usr/openwin/lib/config/Project.tmpl"
+ #else	/* Sun & SVR4 */
+ #if defined(LinuxArchitecture) || defined(FreeBSDArchitecture) || defined(NetBSDArchitecture) || defined(OpenBSDArchitecture) || defined(BSD386Architecture)
+-#include "/usr/X11R6/lib/X11/config/X11.tmpl"
++#include "/usr/lib64/X11/config/X11.tmpl"
+ #else	/* Linux || *BSD */
+-#include "/usr/lib/X11/config/Project.tmpl"
++#include "/usr/lib64/X11/config/Project.tmpl"
+ #endif	/* Linux || *BSD */
+ #endif	/* Sun & SVR4 */
+ 
+@@ -53,20 +53,23 @@ XCOMM ----------------------------------
+ #define BinDir Concat(ProjectRoot,/bin)
+ #else
+ #if ((defined LINUX) || (defined FREEBSD)
+-#define BinDir /usr/X11R6/bin
++#define BinDir /usr/bin
+ #else
+-#define BinDir /usr/bin/X11
++#define BinDir /usr/bin
+ #endif /* LINUX || FREEBSD */
+ #endif /* ProjectRoot */
+ #endif /* BinDir */
+ #ifndef BuildIncRoot
+ #define BuildIncRoot $(TOP)
+ #endif
++#ifndef IncRoot
++#define IncRoot /usr/include
++#endif
+ #ifndef BuildIncTop
+ #define BuildIncTop ..		/* relative to $(TOP)/X11 */
+ #endif
+ #ifndef LibDir
+-#define LibDir $(USRLIBDIR)/X11
++#define LibDir $(USRLIBDIR)
+ #endif
+ #ifndef ConfigDir
+ #define ConfigDir $(LIBDIR)/config
+@@ -502,6 +505,10 @@ install:: list								@@\
+ #define WnnOwner	wnn
+ #endif
+ 
++#ifndef InstallHeader
++#define InstallHeader YES
++#endif
++
+ #ifndef ImTop
+ /*
+ #define ImTop	$(CONTRIBSRC)/im/Xsi
+@@ -510,7 +517,7 @@ install:: list								@@\
+ #endif
+ 
+ #ifndef WnnWnnDir
+-#define WnnWnnDir	/usr/lib/wnn7
++#define WnnWnnDir	/var/lib/wnn7
+ #endif
+ 
+ #ifndef WnnEtcDir
+@@ -518,7 +525,7 @@ install:: list								@@\
+ #endif /* WnnEtcDir */
+ 
+ #ifndef WnnBinDir
+-#define WnnBinDir	/usr/local/bin
++#define WnnBinDir	/usr/bin
+ #endif
+ 
+ #ifndef WnnIncDir
+@@ -542,7 +549,7 @@ install:: list								@@\
+       WNNWNNDIR = WnnWnnDir
+       WNNETCDIR = WnnEtcDir
+       WNNBINDIR = WnnBinDir
+-      WNNINCDIR = WnnIncRoot
++      WNNINCDIR = IncRoot
+       WNNLIBDIR = WnnLibDir
+       WNNVARDIR = WnnVarDir
+     WNNSHAREDIR = WnnShareDir
+@@ -556,7 +563,7 @@ install:: list								@@\
+      JWNNWNNDIR = $(WNNWNNDIR)/ja_JP
+      JWNNBINDIR = $(WNNBINDIR)/Wnn7
+ 
+-     JWNNINCDIR = $(WNNINCDIR)/wnn
++     JWNNINCDIR = $(WNNINCDIR)/wnn7
+      JWNNDICDIR = $(JWNNWNNDIR)/dic
+   JWNNPUBDICDIR = $(JWNNDICDIR)/pubdic
+ JWNNWNNCONSDICDIR = $(JWNNDICDIR)/wnncons
+@@ -583,7 +590,7 @@ WNNWNNCONSDICSRC = $(WNNWNNCONSSRC)/dic
+    WNNCNVFILEDIR = $(WNNJDSRC)/cvtfileDir
+     WNNINCLUDES = -I$(WNNINCLUDESRC) -I$(WNNROMKANMSRC)
+      WNNDEFINES = -DLIBDIR=\"$(WNNWNNDIR)\" -DETCDIR=\"$(WNNETCDIR)\" -DVARDIR=\"$(WNNVARDIR)\" -DSHAREDIR=\"$(WNNSHAREDIR)\"
+-        WNNJLIB = $(WNNJLIBSRC)/libwnn7_fromsrc.a
++        WNNJLIB = $(WNNJLIBSRC)/libwnn7.a
+      WNNCONVLIB = $(WNNCONVSRC)/libconvkey.a
+    WNNYOSOKULIB = $(WNNYOSOKUSRC)/libyosoku.a
+  WNNKANAFURILIB = $(WNNKANAFURISRC)/libkanafuri.a
+--- Wnn7-SDK-1.0/src/Makefile.ini.orig	2001-10-17 03:37:18.000000000 +0200
++++ Wnn7-SDK-1.0/src/Makefile.ini	2016-04-10 22:13:18.310308621 +0200
+@@ -15,7 +15,7 @@
+              MAKE = make
+ #       CONFIGSRC = /usr/lib/X11/config
+ #       CONFIGSRC = /usr/openwin/lib/X11/config
+-        CONFIGSRC = /usr/X11R6/lib/X11/config
++        CONFIGSRC = /usr/lib64/X11/config
+          IMAKESRC = $(CONFIGSRC)
+          IRULESRC = $(CONFIGSRC)
+           WSFLAGS = 

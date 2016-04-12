@@ -1,0 +1,97 @@
+--- Wnn7-SDK-1.0/src/Wnn/jlib/js.c.orig	2001-10-17 03:37:17.000000000 +0200
++++ Wnn7-SDK-1.0/src/Wnn/jlib/js.c	2016-04-11 15:49:50.440981639 +0200
+@@ -159,9 +159,8 @@
+ */
+ 
+ 
+-extern	char	*malloc();
+-
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <ctype.h>
+ #ifdef UX386
+ #include <X11/Xos.h>
+@@ -199,8 +198,6 @@
+ #include "../etc/pwd.c"
+ 
+ 
+-char *malloc();
+-
+ typedef struct _host_address {
+ 	int address_len;
+ 	char *address;
+--- Wnn7-SDK-1.0/src/Wnn/etc/bdic.c.orig	2001-10-17 03:37:17.000000000 +0200
++++ Wnn7-SDK-1.0/src/Wnn/etc/bdic.c	2016-04-11 16:34:07.077536815 +0200
+@@ -370,6 +370,17 @@
+ void put_short(), output_file_uniq(), new_pwd();
+ #endif /* BDIC_WRITE_CHECK */
+ 
++#ifdef WNN_CHECK_INODE
++static
++#else
++#ifdef JS
++static
++#else
++extern
++#endif
++#endif
++int change_file_uniq1();
++
+ #ifdef BDIC_WRITE_CHECK
+ static int
+ vputc(c, fp)
+--- Wnn7-SDK-1.0/src/Wnn/jlib/jl.c.orig	2001-10-17 03:37:17.000000000 +0200
++++ Wnn7-SDK-1.0/src/Wnn/jlib/jl.c	2016-04-11 17:11:09.070776902 +0200
+@@ -143,6 +143,7 @@
+ #include "commonhd.h"
+ #include "config.h"
+ #include <stdio.h>
++#include <stdlib.h>
+ #include <sys/types.h>
+ #ifdef SYSVR2
+ #   include <string.h>
+@@ -559,6 +560,7 @@
+ }
+ 
+ 
++static void jl_disconnect_if_server_dead_body_by_jsid();
+ 
+ static struct wnn_env *
+ jl_connect_lang_core(env_n, server_n, lang, wnnrc_n,
+@@ -568,7 +570,6 @@
+ int  (*error_handler)(), (*message_handler)();
+ int timeout;
+ {
+-	extern void jl_disconnect_if_server_dead_body_by_jsid();
+ 	register WNN_JSERVER_ID	*js = NULL;
+ 	struct wnn_env_int *env;
+ 	int env_exist, cnt;
+--- Wnn7-SDK-1.0/src/Wnn/etc/msg.c.orig	2001-10-17 03:37:17.000000000 +0200
++++ Wnn7-SDK-1.0/src/Wnn/etc/msg.c	2016-04-12 16:32:52.427247417 +0200
+@@ -148,6 +148,8 @@
+ 	    <message id>\t<message>
+ */
+ #include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
+ #include "commonhd.h"
+ #include "config.h"
+ #include "dslib.h"
+@@ -158,7 +158,7 @@
+ 
+ 
+ static char *
+-bsearch(ky, bs, nel, width, compar)
++wnn_bsearch(ky, bs, nel, width, compar)
+ char *ky;
+ char *bs;
+ unsigned long nel;
+@@ -246,7 +246,7 @@
+ 		return(NULL);
+ 	if (cd->msg_bd == 0 || cd->msg_cnt == 0)
+ 		return(NULL);
+-	bd = (struct msg_bd *)bsearch(id, cd->msg_bd, cd->msg_cnt,
++	bd = (struct msg_bd *)wnn_bsearch(id, cd->msg_bd, cd->msg_cnt,
+ 		sizeof(struct msg_bd), _search);
+ 	if (bd == NULL)
+ 		return(NULL);
