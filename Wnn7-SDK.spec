@@ -2,7 +2,7 @@ Summary:	Wnn6 Client Library
 Summary(pl.UTF-8):	Biblioteka kliencka Wnn6
 Name:		Wnn7-SDK
 Version:	1.0
-Release:	1
+Release:	2
 License:	OMRON Corporation (distributable, see README)
 Group:		Libraries
 #Source0Download: http://www.omronsoft.co.jp/SP/pcunix/sdk/
